@@ -1,0 +1,15 @@
+spring:
+   datasource:
+     url: jdbc:mysql://127.0.0.1:3306/zixun?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false
+     username: root
+     password: root
+     driver-class-name: com.mysql.jdbc.Driver
+   freemarker:
+     suffix: .ftl
+     cache: false
+logging:
+  level:
+   #打印SQL信息
+   com.lee.hust_zixun.dao: debug
+mybatis:
+  config-location: classpath:mybatis-config.xml
