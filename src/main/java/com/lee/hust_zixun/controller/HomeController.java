@@ -22,7 +22,6 @@ import java.util.List;
  **/
 @Controller
 public class HomeController {
-    @SuppressWarnings("all")
     @Autowired
     UserService userService;
 

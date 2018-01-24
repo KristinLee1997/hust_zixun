@@ -118,56 +118,57 @@
                 </h3>
 
                 <div class="posts">
-                    <#list vos as vo>
-                        <div class="post">
-                            <div class="votebar">
-                                <button class="click-like up" aria-pressed="false" title="赞同"><i class="vote-arrow"></i><span
-                                        class="count">${vo.news.likeCount}</span></button>
-                                <button class="click-dislike down" aria-pressed="true" title="反对"><i
-                                        class="vote-arrow"></i>
-                                </button>
+                  <#list vos as vo>
+                    <div class="post">
+                        <div class="votebar">
+                            <button class="click-like up" aria-pressed="false" title="赞同"><i
+                                    class="vote-arrow"></i><span
+                                    class="count">${vo.news.likeCount}</span></button>
+                            <button class="click-dislike down" aria-pressed="true" title="反对"><i
+                                    class="vote-arrow"></i>
+                            </button>
+                        </div>
+                        <div class="content" data-url="<#if vo.news.link??>${vo.news.link}</#if>">
+                            <div>
+                                <img class="content-img" src="<#if vo.news.image??>${vo.news.image}</#if>" alt="">
                             </div>
-                            <div class="content" data-url="<#if vo.news.link??>${vo.news.link}</#if>">
-                                <div>
-                                    <img class="content-img" src="<#if vo.news.image??>${vo.news.image}</#if>" alt="">
-                                </div>
-                                <div class="content-main">
-                                    <h3 class="title">
-                                        <a target="_blank" rel="external nofollow"
-                                           href="<#if vo.news.link??>${vo.news.link}</#if>"><#if vo.news.title??>${vo.news.title} ${vo.news.createdDate?string("yyyy年MM月dd日")}</#if></a>
-                                    </h3>
-                                    <div class="meta">
-                            <#if vo.news.link??>${vo.news.link}</#if>
-                                        <span>
+                            <div class="content-main">
+                                <h3 class="title">
+                                    <a target="_blank" rel="external nofollow"
+                                       href="<#if vo.news.link??>${vo.news.link}</#if>"><#if vo.news.title??>${vo.news.title} ${vo.news.createdDate?string("yyyy年MM月dd日")}</#if></a>
+                                </h3>
+                                <div class="meta">
+                                <#if vo.news.link??>${vo.news.link}</#if>
+                                    <span>
                                             <i class="fa icon-comment"></i> <#if vo.news.commentCount??>${vo.news.commentCount}</#if>
                                         </span>
-                                    </div>
                                 </div>
-                            </div>
-                            <div class="user-info">
-                                <div class="user-avatar">
-                                    <a href="/user/<#if vo.user.id??>${vo.user.id}</#if>/"><img width="32"
-                                                                                                class="img-circle"
-                                                                                                src="<#if vo.user.headUrl??>${vo.user.headUrl}</#if>"></a>
-                                </div>
-
-                                <!--
-                                <div class="info">
-                                    <h5>分享者</h5>
-
-                                    <a href="http://nowcoder.com/u/251205"><img width="48" class="img-circle" src="http://images.nowcoder.com/images/20141231/622873_1420036789276_622873_1420036771761_%E8%98%91%E8%8F%87.jpg@0e_200w_200h_0c_1i_1o_90Q_1x" alt="Thumb"></a>
-
-                                    <h4 class="m-b-xs">冰燕</h4>
-                                    <a class="btn btn-default btn-xs" href="http://nowcoder.com/signin"><i class="fa icon-eye"></i> 关注TA</a>
-                                </div>
-                                -->
-                            </div>
-
-                            <div class="subject-name">来自 <a
-                                    href="/user/<#if vo.user.id??>${vo.user.id}</#if>/"><#if vo.user.name??>${vo.user.name}</#if></a>
                             </div>
                         </div>
-                    </#list>
+                        <div class="user-info">
+                            <div class="user-avatar">
+                                <a href="/user/<#if vo.user.id??>${vo.user.id}</#if>/"><img width="32"
+                                                                                            class="img-circle"
+                                                                                            src="<#if vo.user.headUrl??>${vo.user.headUrl}</#if>"></a>
+                            </div>
+
+                            <!--
+                            <div class="info">
+                                <h5>分享者</h5>
+
+                                <a href="http://nowcoder.com/u/251205"><img width="48" class="img-circle" src="http://images.nowcoder.com/images/20141231/622873_1420036789276_622873_1420036771761_%E8%98%91%E8%8F%87.jpg@0e_200w_200h_0c_1i_1o_90Q_1x" alt="Thumb"></a>
+
+                                <h4 class="m-b-xs">冰燕</h4>
+                                <a class="btn btn-default btn-xs" href="http://nowcoder.com/signin"><i class="fa icon-eye"></i> 关注TA</a>
+                            </div>
+                            -->
+                        </div>
+
+                        <div class="subject-name">来自 <a
+                                href="/user/<#if vo.user.id??>${vo.user.id}</#if>/"><#if vo.user.name??>${vo.user.name}</#if></a>
+                        </div>
+                    </div>
+                  </#list>
                     <!--
                     <div class="alert alert-warning subscribe-banner" role="alert">
                       《头条八卦》，每日 Top 3 通过邮件发送给你。      <a class="btn btn-info btn-sm pull-right" href="http://nowcoder.com/account/settings">立即订阅</a>

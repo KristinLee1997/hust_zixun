@@ -25,7 +25,6 @@ public interface NewsDAO {
             ") values (#{title},#{link},#{image},#{likeCount},#{commentCount},#{createdDate},#{userId})"})
     int addNews(News news);
 
-    @SelectProvider(type = NewsSqlProvider.class, method = "selectByUserIdAndOffset")
     List<News> selectByUserIdAndOffset(@Param("userId") int userId, @Param("offset") int offset,
                                        @Param("limit") int limit);
 }
