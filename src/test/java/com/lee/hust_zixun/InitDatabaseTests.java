@@ -1,7 +1,9 @@
 package com.lee.hust_zixun;
 
+import com.lee.hust_zixun.dao.LoginTicketDao;
 import com.lee.hust_zixun.dao.NewsDAO;
 import com.lee.hust_zixun.dao.UserDAO;
+import com.lee.hust_zixun.model.LoginTicket;
 import com.lee.hust_zixun.model.News;
 import com.lee.hust_zixun.model.User;
 import org.junit.Assert;
@@ -24,6 +26,9 @@ public class InitDatabaseTests {
 
     @Autowired
     NewsDAO newsDAO;
+
+    @Autowired
+    LoginTicketDao loginTicketDao;
 
     @Test
     public void initData() {
@@ -51,11 +56,23 @@ public class InitDatabaseTests {
 
             user.setPassword("newPassword");
             userDAO.updatePassword(user);
+
+            LoginTicket ticket = new LoginTicket();
+            ticket.setStatus(0);
+            ticket.setUserId(i + 1);
+            ticket.setExpired(date);
+            ticket.setTicket(String.format("TICKET%d", i + 1));
+            loginTicketDao.addTicket(ticket);
+
+            loginTicketDao.updateStatus(ticket.getTicket(), 2);
         }
         Assert.assertEquals("newPassword", userDAO.selectById(1).getPassword());
 
         userDAO.deleteById(1);
         Assert.assertNull(userDAO.selectById(1));
+
+        Assert.assertEquals(1, loginTicketDao.selectByTicket("TICKET1").getUserId());
+        Assert.assertEquals(2, loginTicketDao.selectByTicket("TICKET1").getStatus());
     }
 }
 
