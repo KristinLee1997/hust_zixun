@@ -7,14 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -38,7 +34,14 @@ public class LoginController {
                            HttpServletResponse response) {
         try {
             Map<String, Object> map = userService.register(username, password);
-            if (map.isEmpty()) {
+            if (map.containsKey("ticket")) {
+                Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
+                cookie.setPath("/");
+                if (rememberme > 0) {
+                    cookie.setMaxAge(3600 * 24 * 5);
+                }
+                response.addCookie(cookie);
+                model.addAttribute("users", map.get("users"));
                 return ZixunUtils.getJSONString(0, "注册成功");
             } else {
                 return ZixunUtils.getJSONString(1, map);
@@ -63,13 +66,20 @@ public class LoginController {
                 if (rememberme > 0) {
                     cookie.setMaxAge(3600 * 24 * 5);
                 }
-                return ZixunUtils.getJSONString(1, "登录成功");
+                model.addAttribute("user", map.get("user"));
+                return ZixunUtils.getJSONString(0, "登录成功");
             } else {
-                return ZixunUtils.getJSONString(0, map);
+                return ZixunUtils.getJSONString(1, map);
             }
         } catch (Exception e) {
             logger.error("登录异常" + e.getMessage());
             return ZixunUtils.getJSONString(1, "登录异常");
         }
+    }
+
+    @RequestMapping(path = {"/logout/"}, method = {RequestMethod.GET, RequestMethod.POST})
+    public String logout(@CookieValue("ticket") String ticket) {
+        userService.logout(ticket);
+        return "redirect:/";
     }
 }

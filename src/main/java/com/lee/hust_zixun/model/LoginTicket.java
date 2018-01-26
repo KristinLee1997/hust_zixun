@@ -8,9 +8,9 @@ import java.util.Date;
 public class LoginTicket {
     private int id;
     private int userId;
-    private Date expired;
+    private Date expired;//有效日期
     private int status;// 0有效，1无效
-    private String ticket;
+    private String ticket; //token
 
     public String getTicket() {
         return ticket;
