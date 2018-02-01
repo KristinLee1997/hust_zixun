@@ -41,7 +41,6 @@ public class LoginController {
                     cookie.setMaxAge(3600 * 24 * 5);
                 }
                 response.addCookie(cookie);
-                model.addAttribute("users", map.get("users"));
                 return ZixunUtils.getJSONString(0, "注册成功");
             } else {
                 return ZixunUtils.getJSONString(1, map);
@@ -66,7 +65,6 @@ public class LoginController {
                 if (rememberme > 0) {
                     cookie.setMaxAge(3600 * 24 * 5);
                 }
-                model.addAttribute("user", map.get("user"));
                 return ZixunUtils.getJSONString(0, "登录成功");
             } else {
                 return ZixunUtils.getJSONString(1, map);

@@ -16,12 +16,26 @@ import java.util.Map;
  **/
 public class ZixunUtils {
     private static final Logger logger = LoggerFactory.getLogger(ZixunUtils.class);
+    public static String[] IMAGE_EXT = new String[]{"png", "bmp", "jpg", "jpeg", "gif"};
+    public static String IMAGE_DIR = "E:/upload/";
+    public static String ZIXUN_DOMAIN = "http://127.0.0.1:8080/";
 
     public static String getJSONString(int code) {
         JSONObject json = new JSONObject();
         json.put("code", code);
         return json.toJSONString();
     }
+
+
+    public static boolean isFileAllowed(String fileExt) {
+        for (String ext : IMAGE_EXT) {
+            if (ext.equals(fileExt)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public static String getJSONString(int code, String msg) {
         JSONObject json = new JSONObject();
