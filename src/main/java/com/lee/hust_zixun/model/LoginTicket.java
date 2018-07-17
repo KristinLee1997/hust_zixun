@@ -2,15 +2,13 @@ package com.lee.hust_zixun.model;
 
 import java.util.Date;
 
-/**
- * Created by nowcoder on 2016/7/3.
- */
+
 public class LoginTicket {
     private int id;
     private int userId;
-    private Date expired;//有效日期
+    private Date expired;
     private int status;// 0有效，1无效
-    private String ticket; //token
+    private String ticket;
 
     public String getTicket() {
         return ticket;

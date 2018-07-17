@@ -1,34 +1,29 @@
 package com.lee.hust_zixun.dao;
 
+
 import com.lee.hust_zixun.model.User;
 import org.apache.ibatis.annotations.*;
 
-/**
- * @author 李航
- * @school 哈尔滨理工大学
- * @date 2018/1/15 22:40
- * @desc
- **/
+
 @Mapper
 public interface UserDAO {
     String TABLE_NAME = "user";
-    String INSERT_FILED = "name, password,salt,head_url";
-    String SELECT_FILED = "id,name,password,salt,head_url";
+    String INSET_FIELDS = " name, password, salt, head_url ";
+    String SELECT_FIELDS = " id, name, password, salt, head_url";
 
-    @Insert({"insert into ", TABLE_NAME, "(", INSERT_FILED, ") " +
-            "values(#{name},#{password},#{salt},#{headUrl})"})  //这里是headUrl变量名
+    @Insert({"insert into ", TABLE_NAME, "(", INSET_FIELDS,
+            ") values (#{name},#{password},#{salt},#{headUrl})"})
     int addUser(User user);
 
-    @Select({"select ", SELECT_FILED, "from ", TABLE_NAME, "where id=#{id}"})
+    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where id=#{id}"})
     User selectById(int id);
 
-    @Select({"select ", SELECT_FILED, "from ", TABLE_NAME, "where name=#{name}"})
+    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where name=#{name}"})
     User selectByName(String name);
 
-    @Update({"update ", TABLE_NAME, "set password=#{password} where id=#{id}"})
+    @Update({"update ", TABLE_NAME, " set password=#{password} where id=#{id}"})
     void updatePassword(User user);
 
-
-    @Delete({"delete from ", TABLE_NAME, "where id=#{id}"})
+    @Delete({"delete from ", TABLE_NAME, " where id=#{id}"})
     void deleteById(int id);
 }

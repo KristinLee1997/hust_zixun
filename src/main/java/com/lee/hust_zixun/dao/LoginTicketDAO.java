@@ -1,16 +1,12 @@
 package com.lee.hust_zixun.dao;
 
+
 import com.lee.hust_zixun.model.LoginTicket;
 import org.apache.ibatis.annotations.*;
 
-/**
- * @author 李航
- * @school 哈尔滨理工大学
- * @date 2018/1/25 16:03
- * @desc
- **/
+
 @Mapper
-public interface LoginTicketDao {
+public interface LoginTicketDAO {
     String TABLE_NAME = "login_ticket";
     String INSERT_FIELDS = " user_id, expired, status, ticket ";
     String SELECT_FIELDS = " id, " + INSERT_FIELDS;

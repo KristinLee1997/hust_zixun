@@ -1,7 +1,11 @@
 package com.lee.hust_zixun.controller;
 
+
+import com.lee.hust_zixun.async.EventModel;
+import com.lee.hust_zixun.async.EventProducer;
+import com.lee.hust_zixun.async.EventType;
 import com.lee.hust_zixun.service.UserService;
-import com.lee.hust_zixun.util.ZixunUtils;
+import com.lee.hust_zixun.util.ZiXunUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,25 +17,23 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
-/**
- * @author 李航
- * @school 哈尔滨理工大学
- * @date 2018/1/24 19:23
- * @desc
- **/
+
 @Controller
 public class LoginController {
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
-    private UserService userService;
+    UserService userService;
+
+    @Autowired
+    EventProducer eventProducer;
 
     @RequestMapping(path = {"/reg/"}, method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public String register(Model model, @RequestParam("username") String username,
-                           @RequestParam("password") String password,
-                           @RequestParam(value = "rember", defaultValue = "0") int rememberme,
-                           HttpServletResponse response) {
+    public String reg(Model model, @RequestParam("username") String username,
+                      @RequestParam("password") String password,
+                      @RequestParam(value = "rember", defaultValue = "0") int rememberme,
+                      HttpServletResponse response) {
         try {
             Map<String, Object> map = userService.register(username, password);
             if (map.containsKey("ticket")) {
@@ -41,13 +43,14 @@ public class LoginController {
                     cookie.setMaxAge(3600 * 24 * 5);
                 }
                 response.addCookie(cookie);
-                return ZixunUtils.getJSONString(0, "注册成功");
+                return ZiXunUtil.getJSONString(0, "注册成功");
             } else {
-                return ZixunUtils.getJSONString(1, map);
+                return ZiXunUtil.getJSONString(1, map);
             }
+
         } catch (Exception e) {
             logger.error("注册异常" + e.getMessage());
-            return ZixunUtils.getJSONString(1, "注册异常");
+            return ZiXunUtil.getJSONString(1, "注册异常");
         }
     }
 
@@ -65,13 +68,18 @@ public class LoginController {
                 if (rememberme > 0) {
                     cookie.setMaxAge(3600 * 24 * 5);
                 }
-                return ZixunUtils.getJSONString(0, "登录成功");
+                response.addCookie(cookie);
+                eventProducer.fireEvent(new EventModel(EventType.LOGIN)
+                        .setActorId((int) map.get("userId"))
+                        .setExt("username", username).setExt("email", "zjuyxy@qq.com"));
+                return ZiXunUtil.getJSONString(0, "成功");
             } else {
-                return ZixunUtils.getJSONString(1, map);
+                return ZiXunUtil.getJSONString(1, map);
             }
+
         } catch (Exception e) {
-            logger.error("登录异常" + e.getMessage());
-            return ZixunUtils.getJSONString(1, "登录异常");
+            logger.error("注册异常" + e.getMessage());
+            return ZiXunUtil.getJSONString(1, "注册异常");
         }
     }
 
@@ -80,4 +88,5 @@ public class LoginController {
         userService.logout(ticket);
         return "redirect:/";
     }
+
 }

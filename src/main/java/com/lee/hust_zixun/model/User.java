@@ -1,8 +1,6 @@
 package com.lee.hust_zixun.model;
 
-/**
- * Created by nowcoder on 2016/6/26.
- */
+
 public class User {
     private int id;
     private String name;

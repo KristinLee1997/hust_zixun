@@ -48,7 +48,7 @@
                 });
             });
             // 代理的事件
-            $.each(oClass.events, function (sCbName, sEventName) {
+            $.each(oClass.events, function (sEventName, sCbName) {
                 var aMatch = sEventName.match(/^(\S+)\s*(.*)$/);
                 var sEvent = aMatch[1];
                 var sSelector = aMatch[2];
@@ -191,8 +191,7 @@
     }
 
     function fInherit(oChild, oParent, oExtend) {
-        var Inheritance = function () {
-        };
+        var Inheritance = function() {};
         Inheritance.prototype = oParent.prototype;
         oChild.prototype = new Inheritance();
         oChild.prototype.constructor = oChild;

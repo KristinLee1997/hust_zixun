@@ -1,20 +1,12 @@
 package com.lee.hust_zixun.dao;
 
+
 import com.lee.hust_zixun.model.News;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
-/**
- * @author 李航
- * @school 哈尔滨理工大学
- * @date 2018/1/16 0:01
- * @desc
- **/
+
 @Mapper
 public interface NewsDAO {
     String TABLE_NAME = "news";
@@ -24,6 +16,15 @@ public interface NewsDAO {
     @Insert({"insert into ", TABLE_NAME, "(", INSERT_FIELDS,
             ") values (#{title},#{link},#{image},#{likeCount},#{commentCount},#{createdDate},#{userId})"})
     int addNews(News news);
+
+    @Select({"select ", SELECT_FIELDS , " from ", TABLE_NAME, " where id=#{id}"})
+    News getById(int id);
+
+    @Update({"update ", TABLE_NAME, " set comment_count = #{commentCount} where id=#{id}"})
+    int updateCommentCount(@Param("id") int id, @Param("commentCount") int commentCount);
+
+    @Update({"update ", TABLE_NAME, " set like_count = #{likeCount} where id=#{id}"})
+    int updateLikeCount(@Param("id") int id, @Param("likeCount") int likeCount);
 
     List<News> selectByUserIdAndOffset(@Param("userId") int userId, @Param("offset") int offset,
                                        @Param("limit") int limit);

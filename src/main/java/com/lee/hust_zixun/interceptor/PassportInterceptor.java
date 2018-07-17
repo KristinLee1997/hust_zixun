@@ -1,6 +1,7 @@
 package com.lee.hust_zixun.interceptor;
 
-import com.lee.hust_zixun.dao.LoginTicketDao;
+
+import com.lee.hust_zixun.dao.LoginTicketDAO;
 import com.lee.hust_zixun.dao.UserDAO;
 import com.lee.hust_zixun.model.HostHolder;
 import com.lee.hust_zixun.model.LoginTicket;
@@ -15,17 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
-/**
- * @author 李航
- * @school 哈尔滨理工大学
- * @date 2018/1/25 16:52
- * @desc 拦截器
- **/
+
 @Component
 public class PassportInterceptor implements HandlerInterceptor {
 
     @Autowired
-    private LoginTicketDao loginTicketDao;
+    private LoginTicketDAO loginTicketDAO;
 
     @Autowired
     private UserDAO userDAO;
@@ -36,7 +32,6 @@ public class PassportInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         String ticket = null;
-        //判断cookie中是否存在ticket,如果存在说明用户已经登录,然后获取到ticket的值
         if (httpServletRequest.getCookies() != null) {
             for (Cookie cookie : httpServletRequest.getCookies()) {
                 if (cookie.getName().equals("ticket")) {
@@ -45,9 +40,9 @@ public class PassportInterceptor implements HandlerInterceptor {
                 }
             }
         }
-//如果存在ticket并不能说明该用户确实已登录,需要判断ticket的值是否正确,去数据库查询是否存在该ticket
+
         if (ticket != null) {
-            LoginTicket loginTicket = loginTicketDao.selectByTicket(ticket);
+            LoginTicket loginTicket = loginTicketDAO.selectByTicket(ticket);
             if (loginTicket == null || loginTicket.getExpired().before(new Date()) || loginTicket.getStatus() != 0) {
                 return true;
             }

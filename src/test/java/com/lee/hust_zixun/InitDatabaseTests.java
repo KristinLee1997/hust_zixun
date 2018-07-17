@@ -1,6 +1,7 @@
 package com.lee.hust_zixun;
 
-import com.lee.hust_zixun.dao.LoginTicketDao;
+
+import com.lee.hust_zixun.dao.LoginTicketDAO;
 import com.lee.hust_zixun.dao.NewsDAO;
 import com.lee.hust_zixun.dao.UserDAO;
 import com.lee.hust_zixun.model.LoginTicket;
@@ -28,7 +29,7 @@ public class InitDatabaseTests {
     NewsDAO newsDAO;
 
     @Autowired
-    LoginTicketDao loginTicketDao;
+    LoginTicketDAO loginTicketDao;
 
     @Test
     public void initData() {
